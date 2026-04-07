@@ -3,8 +3,10 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/champiao/sharepoint-image-uploader/handlers"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -39,7 +41,18 @@ func main() {
 		os.Exit(1)
 	}
 
+	allowedOrigins := strings.Split(os.Getenv("ALLOWED_URLS"), ",")
+	for i, o := range allowedOrigins {
+		allowedOrigins[i] = strings.TrimSpace(o)
+	}
+
 	r := gin.Default()
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     allowedOrigins,
+		AllowMethods:     []string{"POST"},
+		AllowHeaders:     []string{"Origin", "Content-Type"},
+		AllowCredentials: false,
+	}))
 	r.POST("/image", handlers.NewImageHandler(cfg).Upload)
 
 	fmt.Printf("🚀  Servidor iniciado na porta %s\n", port)
