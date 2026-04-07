@@ -1,0 +1,27 @@
+# Binários
+sharepoint-image-uploader
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Testes
+*.test
+*.out
+coverage.*
+
+# Ambiente
+.env
+
+# Armazenamento local de imagens
+Images/
+
+# Editor/IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
